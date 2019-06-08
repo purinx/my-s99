@@ -1,18 +1,21 @@
-import scala.collection._
-import scala.annotation.tailrec
-
+package S99
+/**
+  * P08 (**) Eliminate consecutive duplicates of list elements.
+  * If a list contains repeated elements they should be replaced with a single copy of the element. The order of the elements should not be changed.
+  * Example:
+  *
+  * scala> compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+  * res0: List[Symbol] = List('a, 'b, 'c, 'a, 'd, 'e)
+  */
 object P08 extends App {
-  def compress(list: List[Symbol]): List[Symbol] = {
-    @tailrec
-    def set(list: List[Symbol], index: Int, que: List[Symbol]): List[Symbol] = {
-      if(index == list.size) {
-        que
-      }else if (list(index) == list(index - 1)) {
-        set(list,index+1, que)
-      }else{
-        set(list, index+1, que:+list(index))
-      }
+  def compress[T](list: List[T]): List[T] = {
+    @scala.annotation.tailrec
+    def loop(cur: List[T], result: List[T]): List[T] = cur match {
+      case Nil => result
+      case l if result == Nil => loop(cur.drop(1), result :+ l.head)
+      case l if l.head == result.last => loop(cur.drop(1), result)
+      case _ => loop(cur.drop(1), result :+ cur.head)
     }
-    set(list, 1, List(list.head))
+    loop(list, Nil)
   }
 }

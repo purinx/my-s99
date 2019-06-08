@@ -14,7 +14,7 @@ import S99.P09.pack
 import S99.P04.length
 
 object P10 {
-  def encode1[T](list: List[T]): List[(Int, T)] = {
+  def encode[T](list: List[T]): List[(Int, T)] = {
     val packed = pack(list)
     packed.map(a => (length(a), a.head))
   }
