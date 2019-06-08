@@ -11,7 +11,7 @@ object P31 extends App {
     def isPrime(): Boolean = {
       // nums: 2以上 √self 以下の奇数 & 2
       val nums: List[Int] = List
-        .range(2, ceil(sqrt(self)).toInt)
+        .range(2, ceil(sqrt(self)).toInt + 1)
         .filter(_ % 2 != 0) :+ 2
       return nums.forall(self % _ != 0)
     }
