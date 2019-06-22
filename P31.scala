@@ -5,15 +5,20 @@ package S99
   * res0: Boolean = true
   */
 import Math._
+import scalaz.Memo
 
 object P31 extends App {
+  def loop(m: Int)(i: Int): Boolean = (m, i) match {
+    case (m, i) if m%i == 0 => false
+    case (m, i) if pow(i, 2) > m =>  true
+    case (m, i) => loop(m)(i + 2)
+  }
   implicit class RichInt(self: Int) {
-    def isPrime(): Boolean = {
-      // nums: 2以上 √self 以下の奇数 & 2
-      val nums: List[Int] = List
-        .range(2, ceil(sqrt(self)).toInt + 1)
-        .filter(_ % 2 != 0) :+ 2
-      return nums.forall(self % _ != 0)
+    def isPrime: Int => Boolean =  Memo.mutableHashMapMemo {
+      case 2 => true
+      case n if n < 2 => false
+      case n if n % 2 == 0 => false
+      case n => loop(n)(3)
     }
   }
 }
